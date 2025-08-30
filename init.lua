@@ -94,6 +94,9 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Open the file explorer
 vim.keymap.set("n", "<C-n>", "<cmd>Oil<CR>")
 
+-- Close the buffer
+vim.keymap.set("n", "<leader>bd", "<cmd>bd<CR>", { desc = "[B]uffer [D]elete" })
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
@@ -948,6 +951,13 @@ require("lazy").setup({
 			task = "📌",
 			lazy = "💤 ",
 		},
+	},
+})
+
+-- Make sure we can see dotfiles in Oil
+require("oil").setup({
+	view_options = {
+		show_hidden = true,
 	},
 })
 
