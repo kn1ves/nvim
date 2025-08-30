@@ -56,13 +56,6 @@ vim.o.splitright = true
 vim.o.splitbelow = true
 
 -- Sets how neovim will display certain whitespace characters in the editor.
---  See `:help 'list'`
---  and `:help 'listchars'`
---
---  Notice listchars is set using `vim.opt` instead of `vim.o`.
---  It is very similar to `vim.o` but offers an interface for conveniently interacting with tables.
---   See `:help lua-options`
---   and `:help lua-options-guide`
 vim.o.list = true
 vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣" }
 
@@ -81,8 +74,18 @@ vim.o.scrolloff = 0
 -- See `:help 'confirm'`
 vim.o.confirm = true
 
--- [[ Basic Keymaps ]]
---  See `:help vim.keymap.set()`
+--[[
+ _  __________     ____  __          _____   _____ 
+| |/ /  ____\ \   / /  \/  |   /\   |  __ \ / ____|
+| ' /| |__   \ \_/ /| \  / |  /  \  | |__) | (___  
+|  < |  __|   \   / | |\/| | / /\ \ |  ___/ \___ \ 
+| . \| |____   | |  | |  | |/ ____ \| |     ____) |
+|_|\_\______|  |_|  |_|  |_/_/    \_\_|    |_____/ 
+                                                   
+                                                   
+]]
+-- Basic Keymaps
+-- See `:help vim.keymap.set()`
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -124,6 +127,16 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+--[[
+ _                ________     __  _   ___      _______ __  __ 
+| |        /\    |___  /\ \   / / | \ | \ \    / /_   _|  \/  |
+| |       /  \      / /  \ \_/ /  |  \| |\ \  / /  | | | \  / |
+| |      / /\ \    / /    \   /   | . ` | \ \/ /   | | | |\/| |
+| |____ / ____ \  / /__    | |    | |\  |  \  /   _| |_| |  | |
+|______/_/    \_\/_____|   |_|    |_| \_|   \/   |_____|_|  |_|
+                                                               
+                                                               
+]]
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -849,7 +862,6 @@ require("lazy").setup({
 		opts = {
 			ensure_installed = {
 				"bash",
-				"c",
 				"diff",
 				"html",
 				"lua",
