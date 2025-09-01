@@ -645,6 +645,7 @@ require("lazy").setup({
 			local ensure_installed = vim.tbl_keys(servers or {})
 			vim.list_extend(ensure_installed, {
 				"stylua", -- Used to format Lua code
+				"prettier",
 			})
 			require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
@@ -669,16 +670,16 @@ require("lazy").setup({
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
-		--keys = {
-		--{
-		--"<leader>f",
-		--function()
-		--require("conform").format({ async = true, lsp_format = "fallback" })
-		--end,
-		--mode = "",
-		--desc = "[F]ormat buffer",
-		--},
-		--},
+		keys = {
+			{
+				"<leader>fm",
+				function()
+					require("conform").format({ async = true, lsp_format = "fallback" })
+				end,
+				mode = "",
+				desc = "[F]or[M]at",
+			},
+		},
 		opts = {
 			notify_on_error = false,
 			format_on_save = function(bufnr)
@@ -697,6 +698,7 @@ require("lazy").setup({
 			end,
 			formatters_by_ft = {
 				lua = { "stylua" },
+				html = { "prettier" },
 				-- Conform can also run multiple formatters sequentially
 				-- python = { "isort", "black" },
 				--
