@@ -541,7 +541,7 @@ require("lazy").setup({
 					require("conform").format({ async = true, lsp_format = "fallback" })
 				end,
 				mode = "",
-				desc = "[F]or[M]at",
+				desc = "For[M]at",
 			},
 		},
 		opts = {
@@ -825,5 +825,3 @@ require("oil").setup({
 		show_hidden = true,
 	},
 })
-
--- vim: ts=2 sts=2 sw=2 et
