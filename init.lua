@@ -274,6 +274,9 @@ require("lazy").setup({
 			vim.keymap.set("n", "<leader>fn", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
 			end, { desc = "[F]ind [N]eovim files" })
+			vim.keymap.set("n", "<leader>fa", function()
+				builtin.live_grep({ hidden = true })
+			end, { desc = "[F]ind [A]ll (grep with dotfiles)" })
 
 			-- [G]it keymaps
 			vim.keymap.set("n", "<leader>gs", builtin.git_status, { desc = "[G]it [S]tatus" })
