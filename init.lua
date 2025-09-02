@@ -752,6 +752,7 @@ require("lazy").setup({
 				"markdown",
 				"markdown_inline",
 				"python",
+				"c_sharp",
 				"query",
 				"vim",
 				"vimdoc",
