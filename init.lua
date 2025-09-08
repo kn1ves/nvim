@@ -92,6 +92,10 @@ vim.keymap.set("n", "<leader>bn", "<cmd>enew<CR>", { desc = "[B]uffer [N]ew" })
 -- Reload the buffer
 vim.keymap.set("n", "<leader>br", "<cmd>e<CR>", { desc = "[B]uffer [R]eload" })
 
+-- Move to the next/prev buffer
+vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>")
+vim.keymap.set("n", "<S-Tab>", "<cmd>bprev<CR>")
+
 -- Diagnostic keymaps
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
