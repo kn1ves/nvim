@@ -105,6 +105,9 @@ vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" }
 -- Yank to windows clipboard
 vim.keymap.set("n", "<leader>y", "ggVG!clip.exe<CR>u")
 
+-- Run selected bash command
+vim.keymap.set("v", "<leader>rb", "!sh<CR>", { desc = "[R]un [B]ash" })
+
 -- TIP: Disable arrow keys in normal mode
 vim.keymap.set("n", "<left>", '<cmd>echo "Use h to move!!"<CR>')
 vim.keymap.set("n", "<right>", '<cmd>echo "Use l to move!!"<CR>')
@@ -227,7 +230,7 @@ require("lazy").setup({
 				{ "<leader>d", group = "[D]ocument" },
 				{ "<leader>f", group = "[F]ind & Format" },
 				{ "<leader>g", group = "[G]it" },
-				{ "<leader>r", group = "[R]ename" },
+				{ "<leader>r", group = "[R]un & Rename" },
 				{ "<leader>t", group = "[T]oggle" },
 				{ "<leader>w", group = "[W]orkspace" },
 				{ "<leader>y", group = "[Y]ank to Windows" },
