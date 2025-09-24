@@ -169,10 +169,41 @@ require("lazy").setup({
 				topdelete = { text = "‾" },
 				changedelete = { text = "~" },
 			},
+			on_attach = function(bufnr)
+				local gs = package.loaded.gitsigns
+
+				local function map(mode, l, r, opts)
+					opts = opts or {}
+					opts.buffer = bufnr
+					vim.keymap.set(mode, l, r, opts)
+				end
+
+				-- Navigation
+				map("n", "]c", function()
+					if vim.wo.diff then
+						return "]c"
+					end
+					vim.schedule(function()
+						gs.next_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true, desc = "Next Git hunk" })
+
+				map("n", "[c", function()
+					if vim.wo.diff then
+						return "[c"
+					end
+					vim.schedule(function()
+						gs.prev_hunk()
+					end)
+					return "<Ignore>"
+				end, { expr = true, desc = "Previous Git hunk" })
+
+				-- Actions
+				map("n", "<leader>gds", gs.diffthis, { desc = "[G]it [D]iff [S]plit" })
+				map("n", "<leader>gdi", gs.preview_hunk, { desc = "[G]it [D]iff [I]nline" })
+			end,
 		},
-		config = function()
-			vim.keymap.set("n", "<leader>gd", "<cmd>Gitsigns diffthis<CR>", { desc = "[G]it [D]iff" })
-		end,
 	},
 
 	{
@@ -233,6 +264,7 @@ require("lazy").setup({
 				{ "<leader>d", group = "[D]ocument" },
 				{ "<leader>f", group = "[F]ind & Format" },
 				{ "<leader>g", group = "[G]it" },
+				{ "<leader>gd", group = "[G]it [D]iff" },
 				{ "<leader>r", group = "[R]un & Rename" },
 				{ "<leader>t", group = "[T]oggle" },
 				{ "<leader>w", group = "[W]orkspace" },
