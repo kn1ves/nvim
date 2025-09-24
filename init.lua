@@ -170,6 +170,9 @@ require("lazy").setup({
 				changedelete = { text = "~" },
 			},
 		},
+		config = function()
+			vim.keymap.set("n", "<leader>gd", "<cmd>Gitsigns diffthis<CR>", { desc = "[G]it [D]iff" })
+		end,
 	},
 
 	{
@@ -236,6 +239,99 @@ require("lazy").setup({
 				{ "<leader>y", group = "[Y]ank to Windows" },
 			},
 		},
+	},
+
+	{
+		"mfussenegger/nvim-dap",
+		ft = "python",
+		dependencies = {
+			"nvim-neotest/nvim-nio",
+			"rcarriga/nvim-dap-ui",
+			{ "mfussenegger/nvim-dap-python", ft = "python" },
+			"theHamsta/nvim-dap-virtual-text",
+		},
+		config = function()
+			local dap = require("dap")
+			local dapui = require("dapui")
+			local dap_python = require("dap-python")
+
+			require("dapui").setup({})
+			require("nvim-dap-virtual-text").setup({
+				commented = true, -- Show virtual text alongside comment
+			})
+
+			-- dap_python.setup("python3")
+			dap_python.setup("/mnt/c/git/fitness_api/venv/bin/python")
+			dap.configurations.python = {
+				{
+					name = "FastAPI with uvicorn",
+					type = "python",
+					request = "launch",
+					module = "uvicorn",
+					args = { "app.main:app", "--reload" },
+					justMyCode = false,
+					console = "integratedTerminal",
+					cwd = "${workspaceFolder}",
+				},
+			}
+
+			vim.fn.sign_define("DapBreakpoint", {
+				text = "",
+				texthl = "DiagnosticSignError",
+				linehl = "",
+				numhl = "",
+			})
+
+			vim.fn.sign_define("DapBreakpointRejected", {
+				text = "", -- or "❌"
+				texthl = "DiagnosticSignError",
+				linehl = "",
+				numhl = "",
+			})
+
+			vim.fn.sign_define("DapStopped", {
+				text = "", -- or "→"
+				texthl = "DiagnosticSignWarn",
+				linehl = "Visual",
+				numhl = "DiagnosticSignWarn",
+			})
+
+			-- Automatically open/close DAP UI
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+			end
+
+			local opts = { noremap = true, silent = true }
+
+			-- Keymaps with descriptions
+			vim.keymap.set("n", "<leader>db", function()
+				dap.toggle_breakpoint()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Toggle Breakpoint" }))
+
+			vim.keymap.set("n", "<leader>dc", function()
+				dap.continue()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Continue/Start" }))
+
+			vim.keymap.set("n", "<leader>do", function()
+				dap.step_over()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Step Over" }))
+
+			vim.keymap.set("n", "<leader>di", function()
+				dap.step_into()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Step Into" }))
+
+			vim.keymap.set("n", "<leader>dO", function()
+				dap.step_out()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Step Out" }))
+
+			vim.keymap.set("n", "<leader>dq", function()
+				dap.terminate()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Terminate Debugging" }))
+
+			vim.keymap.set("n", "<leader>du", function()
+				dapui.toggle()
+			end, vim.tbl_extend("force", opts, { desc = "DAP: Toggle UI" }))
+		end,
 	},
 
 	--[[
