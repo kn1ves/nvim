@@ -292,20 +292,40 @@ require("lazy").setup({
 				commented = true, -- Show virtual text alongside comment
 			})
 
-			-- dap_python.setup("python3")
-			dap_python.setup("/mnt/c/git/fitness_api/venv/bin/python")
-			dap.configurations.python = {
-				{
-					name = "FastAPI with uvicorn",
-					type = "python",
-					request = "launch",
-					module = "uvicorn",
-					args = { "app.main:app", "--reload" },
-					justMyCode = false,
-					console = "integratedTerminal",
-					cwd = "${workspaceFolder}",
-				},
-			}
+			-- Adapter python: only needs debugpy, does NOT need to match the project.
+			-- With no argument, dap-python falls back to `python3`.
+			dap_python.setup()
+
+			-- Debuggee python: resolved per-project at launch time.
+			dap.configurations.python = dap.configurations.python or {}
+			table.insert(dap.configurations.python, 1, {
+				type = 'python',
+				request = 'launch',
+				name = 'Launch file (project .venv)',
+				program = '${file}',
+				console = 'integratedTerminal',
+				justMyCode = false,
+				python = function()
+					local cwd = vim.fn.getcwd()
+					if vim.fn.executable(cwd .. '/.venv/bin/python') then
+						return cwd .. '/.venv/bin/python'
+					end
+					return 'python3'
+				end,
+			})
+			--dap_python.setup("/mnt/c/git/fitness_api/venv/bin/python")
+			--dap.configurations.python = {
+			--{
+			--name = "FastAPI with uvicorn",
+			--type = "python",
+			--request = "launch",
+			--module = "uvicorn",
+			--args = { "app.main:app", "--reload" },
+			--justMyCode = false,
+			--console = "integratedTerminal",
+			--cwd = "${workspaceFolder}",
+			--},
+			--}
 
 			vim.fn.sign_define("DapBreakpoint", {
 				text = "",
